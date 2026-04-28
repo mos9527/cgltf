@@ -683,6 +683,9 @@ typedef struct cgltf_camera_lens {
 	cgltf_float sensor_size;
 	cgltf_float fstop;
 	cgltf_float focus_distance;
+	cgltf_uint aperture_blades;
+	cgltf_float aperture_rotation;
+	cgltf_float aperture_ratio;
 } cgltf_camera_lens;
 
 typedef struct cgltf_camera {
@@ -5487,6 +5490,13 @@ static int cgltf_parse_json_camera_lens(cgltf_options* options, jsmntok_t const*
 	(void)options;
 	CGLTF_CHECK_TOKTYPE(tokens[i], JSMN_OBJECT);
 
+	out_lens->sensor_size = 36.0f;
+	out_lens->fstop = 2.8f;
+	out_lens->focus_distance = 10.0f;
+	out_lens->aperture_blades = 0;
+	out_lens->aperture_rotation = 0.0f;
+	out_lens->aperture_ratio = 1.0f;
+
 	int size = tokens[i].size;
 	++i;
 
@@ -5510,6 +5520,24 @@ static int cgltf_parse_json_camera_lens(cgltf_options* options, jsmntok_t const*
 		{
 			++i;
 			out_lens->focus_distance = cgltf_json_to_float(tokens + i, json_chunk);
+			++i;
+		}
+		else if (cgltf_json_strcmp(tokens+i, json_chunk, "apertureBlades") == 0)
+		{
+			++i;
+			out_lens->aperture_blades = (cgltf_uint)cgltf_json_to_int(tokens + i, json_chunk);
+			++i;
+		}
+		else if (cgltf_json_strcmp(tokens+i, json_chunk, "apertureRotation") == 0)
+		{
+			++i;
+			out_lens->aperture_rotation = cgltf_json_to_float(tokens + i, json_chunk);
+			++i;
+		}
+		else if (cgltf_json_strcmp(tokens+i, json_chunk, "apertureRatio") == 0)
+		{
+			++i;
+			out_lens->aperture_ratio = cgltf_json_to_float(tokens + i, json_chunk);
 			++i;
 		}
 		else

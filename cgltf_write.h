@@ -1187,6 +1187,9 @@ static void cgltf_write_camera(cgltf_write_context* context, const cgltf_camera*
 		cgltf_write_floatprop(context, "sensorSize", camera->lens.sensor_size, -1.0f);
 		cgltf_write_floatprop(context, "fStop", camera->lens.fstop, -1.0f);
 		cgltf_write_floatprop(context, "focusDistance", camera->lens.focus_distance, -1.0f);
+		cgltf_write_intprop(context, "apertureBlades", camera->lens.aperture_blades, -1);
+		cgltf_write_floatprop(context, "apertureRotation", camera->lens.aperture_rotation, -1.0f);
+		cgltf_write_floatprop(context, "apertureRatio", camera->lens.aperture_ratio, -1.0f);
 		cgltf_write_line(context, "}");
 		cgltf_write_line(context, "}");
 	}
